@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-9">
+            <div class="container">
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h1>Insert your generic information</h1>
+                        </div>
+                        <form #heroForm="ngForm" class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="nickName">NickName</label>
+                                    <input type="text" class="form-control" id="nickName" required
+                                        [(ngModel)]="model.nickName" name="nickName">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select class="form-control" id="power" required [(ngModel)]="model.gender"
+                                        name="gender">
+                                        <option *ngFor="let sex of genders" [value]="sex">{{sex}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" name="age" min="3" max="120" class="form-range"
+                                        required [(ngModel)]="model.age">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success" (click)="onSubmit()">Start</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="background-color: #615b5b6c; height: 100%;">
+            <h4>How to know</h4>
+            <p>Your information are used to only statistics</p>
+        </div>
+    </div>
+</div>
