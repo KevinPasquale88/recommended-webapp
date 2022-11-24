@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginEntryComponent } from './login-entry/login-entry.component';
 import { ApiModule } from './api/api.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ApiModule } from './api/api.module';
     NgbModule,
     FormsModule,
     JwtModule,
+    HttpClientModule,
     ApiModule.forRoot({ rootUrl: 'http://localhost:8080/' }),
   ],
   providers: [CookieService],
