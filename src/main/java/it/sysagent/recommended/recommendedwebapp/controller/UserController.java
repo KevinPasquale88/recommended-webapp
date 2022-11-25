@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PutMapping("/userSession")
     public String userSession(User user) {
-        return userService.authUser(user);
+        return userService.userSession(user);
     }
 
     @PutMapping("/auth")
     public String auth(AuthUser auth) {
-        if (auth != null && StringUtils.equalsIgnoreCase(auth.getUser(), "admin") && StringUtils.equalsIgnoreCase(auth.getPwd(), "pwd")) {
-            return "OK";
+        if (auth != null){
+            return userService.authUser(auth);
         } else {
             return "KO";
         }
