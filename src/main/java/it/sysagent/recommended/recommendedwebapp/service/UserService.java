@@ -3,6 +3,7 @@ package it.sysagent.recommended.recommendedwebapp.service;
 import it.sysagent.recommended.recommendedwebapp.dto.AuthUser;
 import it.sysagent.recommended.recommendedwebapp.dto.User;
 import it.sysagent.recommended.recommendedwebapp.entity.AuthUserEntity;
+import it.sysagent.recommended.recommendedwebapp.entity.UsersEntity;
 import it.sysagent.recommended.recommendedwebapp.repository.RepositoryAuthUser;
 import it.sysagent.recommended.recommendedwebapp.repository.RepositoryUsers;
 import it.sysagent.recommended.recommendedwebapp.util.JWTUtils;
@@ -22,7 +23,8 @@ public class UserService {
     private RepositoryAuthUser repositoryAuthUser;
 
     public String userSession(User user) {
-        return JWTUtils.generate(user);
+        UsersEntity userEntity = repositoryUsers.save(new UsersEntity(user));
+        return JWTUtils.generate(userEntity);
     }
 
     public String authUser(AuthUser authUser) {

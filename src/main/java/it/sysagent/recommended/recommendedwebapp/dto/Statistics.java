@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Statistics{
 
-    private String nickName;
+    private Double review;
 
-    private String gender;
+    private String emotion;
 
-    private int age;
+    private User user;
 }

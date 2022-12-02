@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Image {
 
-    private String nickName;
+    private String image;
 
-    private String gender;
-
-    private int age;
+    private byte[] data;
 }

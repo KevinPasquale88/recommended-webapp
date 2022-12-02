@@ -4,14 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class ImageStatistics {
 
-    private String nickName;
+    private String nameImage;
 
-    private String gender;
+    private byte[] image;
 
-    private int age;
+    private List<Statistics> statisticsList;
 }
+
+

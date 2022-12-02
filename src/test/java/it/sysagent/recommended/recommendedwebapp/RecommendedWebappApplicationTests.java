@@ -3,11 +3,11 @@ package it.sysagent.recommended.recommendedwebapp;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class RecommendedWebappApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//@SpringBootTest
+//class RecommendedWebappApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "reviews_images")
 @Entity
@@ -16,11 +14,13 @@ import javax.persistence.Table;
 public class ReviewsEntity {
 
     @Id
+    @Column(name = "idreviews_images", nullable = false)
+    @GeneratedValue
     private Long idreviews_images;
 
     private String image;
 
     private Double review;
 
-    private Long id_user;
+    private String description;
 }

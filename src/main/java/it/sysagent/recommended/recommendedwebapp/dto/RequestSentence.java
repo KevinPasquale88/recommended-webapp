@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class RequestSentence {
 
-    private String nickName;
+    private String sentence;
 
-    private String gender;
+    private String model_path;
 
-    private int age;
+    private String dataset_path;
 }

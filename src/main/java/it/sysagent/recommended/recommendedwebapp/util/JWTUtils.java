@@ -7,17 +7,19 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import it.sysagent.recommended.recommendedwebapp.dto.User;
+import it.sysagent.recommended.recommendedwebapp.entity.UsersEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 @Slf4j
 public class JWTUtils {
 
-    public static String generate(User user){
+    public static String generate(UsersEntity user){
         try {
             Algorithm algorithm = Algorithm.HMAC384("jojolo");
             return JWT.create()
-                    .withClaim("nickname", user.getNickName())
+                    .withClaim("id", String.valueOf(user.getId_user()))
+                    .withClaim("nickname", user.getNickname())
                     .withClaim("age", user.getAge())
                     .withClaim("gender", user.getGender())
                     .withIssuer("user")
@@ -25,11 +27,11 @@ public class JWTUtils {
         } catch (JWTCreationException exception){
             log.error(ExceptionUtils.getStackTrace(exception));
         }
-        return user.getNickName();
+        return user.getNickname();
     }
 
-    public static User decode(String token){
-        User user = new User();
+    public static UsersEntity decode(String token){
+        UsersEntity user = new UsersEntity();
         try {
             Algorithm algorithm = Algorithm.HMAC384("jojolo");
             JWTVerifier verifier = JWT.require(algorithm)
@@ -40,7 +42,7 @@ public class JWTUtils {
             decodedJWT.getClaims().entrySet().stream().forEach(elem ->{
                 switch(elem.getKey()){
                     case "nickname":
-                        user.setNickName(elem.getValue().asString());
+                        user.setNickname(elem.getValue().asString());
                     break;
                     case "age":
                         user.setAge(elem.getValue().asInt());
@@ -48,9 +50,13 @@ public class JWTUtils {
                     case "gender":
                         user.setGender(elem.getValue().asString());
                         break;
+                    case "id":
+                        user.setId_user(elem.getValue().asLong());
+                        break;
                 }
             });
         } catch (JWTVerificationException exception){
+            log.error(ExceptionUtils.getMessage(exception));
         }
         return user;
     }
