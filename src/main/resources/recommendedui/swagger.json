@@ -1,0 +1,269 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/users/userSession": {
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "userSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": null
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/auth": {
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "auth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUser"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": null
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/images/putComment": {
+      "put": {
+        "tags": [
+          "imaging-controller"
+        ],
+        "operationId": "putComment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/images/random-image": {
+      "get": {
+        "tags": [
+          "imaging-controller"
+        ],
+        "operationId": "getRandomImage",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Image"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dashboard/statistics": {
+      "get": {
+        "tags": [
+          "dashboard-controller"
+        ],
+        "operationId": "get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": null,
+                  "items": {
+                    "$ref": "#/components/schemas/ImageStatistics"
+                  }
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "nickName": {
+            "type": "string",
+            "example": null
+          },
+          "gender": {
+            "type": "string",
+            "example": null
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "example": null
+          }
+        },
+        "example": null
+      },
+      "AuthUser": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "string",
+            "example": null
+          },
+          "pwd": {
+            "type": "string",
+            "example": null
+          }
+        },
+        "example": null
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "example": null
+          },
+          "image": {
+            "type": "string",
+            "example": null
+          },
+          "jwt": {
+            "type": "string",
+            "example": null
+          }
+        },
+        "example": null
+      },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string",
+            "example": null
+          },
+          "data": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "type": "string",
+              "format": "byte",
+              "example": null
+            }
+          }
+        },
+        "example": null
+      },
+      "ImageStatistics": {
+        "type": "object",
+        "properties": {
+          "nameImage": {
+            "type": "string",
+            "example": null
+          },
+          "image": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "type": "string",
+              "format": "byte",
+              "example": null
+            }
+          },
+          "statisticsList": {
+            "type": "array",
+            "example": null,
+            "items": {
+              "$ref": "#/components/schemas/Statistics"
+            }
+          }
+        },
+        "example": null
+      },
+      "Statistics": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "number",
+            "format": "double",
+            "example": null
+          },
+          "emotion": {
+            "type": "string",
+            "example": null
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "example": null
+      }
+    }
+  }
+}

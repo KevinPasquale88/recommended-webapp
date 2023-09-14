@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Come ti senti ?</h1>
+    <div class="card">
+        <div class="card-header">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar"
+                    aria-valuenow="stepsImagine" aria-valuemin="0" aria-valuemax="100"
+                    [ngStyle]= "{ 'width':componentWidth}">{{componentWidth}}</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div *ngIf="sentenceEmpty" class="alert alert-danger" role="alert">
+                Se non vuoi commentare puoi cliccare su skip
+            </div>
+            <img [src]="imageShow" class="img-fluid">
+            <h5 class="card-title">Come commenteresti questa immagine:</h5>
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="sentence" required [(ngModel)]="sentence"
+                            name="sentence">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success" (click)="onSubmit()">Conferma</button>
+                    <button type="submit" class="btn btn-warning" (click)="skip()">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

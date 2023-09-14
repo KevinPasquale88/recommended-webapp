@@ -1,0 +1,25 @@
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ATTENZIONE</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Attenzione, le immagini che seguono potrebbero turbare la vostra sensibilità.<br>
+                    Se non volete proseguire cliccate su confermo, senza acconsentire.
+                </p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [checked]="acconsentire" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Accosento
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="consenso(acconsentire)"
+                    data-bs-dismiss="modal">Confermo</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="container-fluid">
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-primary" type="button" (click)="goToAdmin()">Login</button>
+        <button class="btn btn-primary" type="button" (click)="goToSurvey()">Registrati</button>
+        <app-advice *ngIf="register" (confermo)="consenso($event)"></app-advice>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="card" *ngFor="let elem of elems">
+        <img class="card-img-top" [src]="elem.image" alt="Image cap">
+        <div class="card-body">
+            <h5 class="card-title">Image {{elem.name}}</h5>
+            <ul class="list-group list-group-flush">
+                <div *ngIf="checkCommentsSize(elem.statisticsMapMale) == true">
+                    <li class="list-group-item">
+                        <app-barchart [gender]="'MALE'" [statisticMap]="elem.statisticsMapMale"></app-barchart>
+                    </li>
+                </div>
+                <div *ngIf="checkCommentsSize(elem.statisticsMapFemale) == true">
+                    <li class="list-group-item">
+                        <app-barchart [gender]="'FEMALE'" [statisticMap]="elem.statisticsMapFemale"></app-barchart>
+                    </li>
+                </div>
+                <div *ngIf="checkCommentsSize(elem.statisticsMapUnknow) == true">
+                    <li class="list-group-item">
+                        <app-barchart [gender]="'UNKNOW'" [statisticMap]="elem.statisticsMapUnknow"></app-barchart>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

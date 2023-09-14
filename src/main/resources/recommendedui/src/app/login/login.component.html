@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-9">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="loginFailed" class="alert alert-danger" role="alert">
+                        Login Failed
+                    </div>
+                    <form #loginForm="ngForm" class="row">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">User</label>
+                            <input type="text" class="form-control" id="userId" required [(ngModel)]="model.user"
+                                name="userId">
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordId" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passwordId" required
+                                [(ngModel)]="model.password" name="passwordId">
+                        </div>
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="position-absolute bottom-0 end-0">
+                                <button type="button" class="btn btn-outline-secondary" (click)="goto()">Go To
+                                    Register</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="background-color: #615b5b6c; height: 100%;">
+            <h4>How to know</h4>
+            <p>With right credentials you can see the dashboard with reports.</p>
+            <ul>
+                <li>
+                    <p style="font-style: italic;">
+                        If you don't remember the credentials, you can close or go to register for start the survey</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
