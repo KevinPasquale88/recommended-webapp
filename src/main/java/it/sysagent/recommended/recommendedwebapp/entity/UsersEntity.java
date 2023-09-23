@@ -2,12 +2,10 @@ package it.sysagent.recommended.recommendedwebapp.entity;
 
 import it.sysagent.recommended.recommendedwebapp.dto.User;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Objects;
 
-@Table(name="users")
+@Table(name = "users")
 @Entity
 @Getter
 @Setter
@@ -17,40 +15,35 @@ import java.util.Objects;
 public class UsersEntity {
 
     @Id
-    @Column(name = "id_user", nullable = false)
+    @Column(name = "iduser", nullable = false)
     @GeneratedValue
-    private Long id_user;
+    private Long idUser;
 
-    private String nickname;
+    @Column(name = "name")
+    private String name;
 
+    @Column(name = "age")
     private Integer age;
 
+    @Column(name = "gender")
     private String gender;
 
-    public UsersEntity(User user){
-        this.nickname = user.getNickName();
+    @Column(name = "authorizationRecord")
+    private Boolean authorizationRecord;
+
+
+    public UsersEntity(User user) {
+        this.name = user.getName();
         this.age = user.getAge();
         this.gender = user.getGender();
+        this.authorizationRecord = user.isAuthorizationRecording();
     }
 
-    public User getUser(){
+    public User getUser() {
         User user = new User();
         user.setGender(this.gender);
         user.setAge(this.age);
-        user.setNickName(this.nickname);
+        user.setName(this.name);
         return user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        UsersEntity entity = (UsersEntity) o;
-        return id_user != null && Objects.equals(id_user, entity.id_user);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

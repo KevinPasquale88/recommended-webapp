@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Statistics{
+public class CommentEmotion {
 
-    private Double review;
+    private String comment;
 
-    private String emotion;
+    private Long idImage;
 
-    private User user;
+    private Long idEmotion;
 }

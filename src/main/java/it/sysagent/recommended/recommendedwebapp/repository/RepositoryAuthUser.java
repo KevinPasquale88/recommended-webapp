@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository(RepositoryAuthUser.ENTITY)
 public interface RepositoryAuthUser extends JpaRepository<AuthUserEntity, Long> {
+
+    String ENTITY = "AUTH-USER-REPOSITORY";
 
     List<AuthUserEntity> findByUser(String user);
 }

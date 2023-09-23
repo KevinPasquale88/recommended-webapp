@@ -12,7 +12,7 @@ import { UserServicesService } from '../services/user-services/user-services.ser
 export class GenericInputsComponent implements OnInit {
 
   genders = ['Male', 'Female', 'Unknow'];
-  model = new User('', '', 0);
+  model = new User('', '', 0, false);
 
   constructor(private _router: Router, private _activatedRoute: ActivatedRoute
     , private cookieService: CookieService, private userServicee: UserServicesService) { }
@@ -22,15 +22,20 @@ export class GenericInputsComponent implements OnInit {
 
   onSubmit() {
     this.userServicee.registerUser({
-      age : this.model.age,
+      age: this.model.age,
       gender: this.model.gender,
-      nickName: this.model.nickName
-    }).subscribe((res)=>{
-      if(res){
+      nickName: this.model.nickName,
+      auth: this.model.auth
+    }).subscribe((res) => {
+      if (res) {
         this.cookieService.set('user', res);
         this._router.navigate(['/imaging']);
       }
     });
+  }
+
+  goToHomePage() {
+    this._router.navigate(['/firstlogin']);
   }
 
 }

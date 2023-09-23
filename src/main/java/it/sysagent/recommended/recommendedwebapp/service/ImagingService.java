@@ -1,96 +1,75 @@
 package it.sysagent.recommended.recommendedwebapp.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.sysagent.recommended.recommendedwebapp.dto.Comment;
+import it.sysagent.recommended.recommendedwebapp.dto.CommentEmotion;
+import it.sysagent.recommended.recommendedwebapp.dto.Image;
+import it.sysagent.recommended.recommendedwebapp.entity.ImagesEntity;
 import it.sysagent.recommended.recommendedwebapp.entity.ReviewsEntity;
-import it.sysagent.recommended.recommendedwebapp.entity.ReviewsUsers;
+import it.sysagent.recommended.recommendedwebapp.entity.ReviewsFromUsers;
 import it.sysagent.recommended.recommendedwebapp.entity.UsersEntity;
 import it.sysagent.recommended.recommendedwebapp.repository.RepositoryReviews;
 import it.sysagent.recommended.recommendedwebapp.repository.RepositoryReviewsUsers;
-import it.sysagent.recommended.recommendedwebapp.util.CreateRequestSentence;
-import it.sysagent.recommended.recommendedwebapp.util.Descriptors;
 import it.sysagent.recommended.recommendedwebapp.util.JWTUtils;
-import it.sysagent.recommended.recommendedwebapp.util.POSTClient;
+import it.sysagent.recommended.recommendedwebapp.util.LoadImages;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
-@Service
+@Service(ImagingService.ENTITY)
 public class ImagingService {
 
-    private List<String> images;
+    public final static String ENTITY = "IMAGING-SERVICE";
 
-    @Value("${service.host.sentences}")
-    private String host;
+    private final RepositoryReviews repositoryReviews;
 
-    @Autowired
-    private RepositoryReviews repositoryReviews;
+    private final RepositoryReviewsUsers repositoryReviewsUsers;
 
-    @Autowired
-    private RepositoryReviewsUsers repositoryReviewsUsers;
+    private final LoadImages loadImages;
 
     @Autowired
-    public ImagingService() {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        images = new ArrayList<>();
-        listFilesForFolder(new File(classloader.getResource("images").getFile()));
+    public ImagingService(@Qualifier(RepositoryReviews.ENTITY) RepositoryReviews repositoryReviews,
+                          @Qualifier(RepositoryReviewsUsers.ENTITY) RepositoryReviewsUsers repositoryReviewsUsers,
+                          @Qualifier(LoadImages.ENTITY) LoadImages loadImages) {
+        this.repositoryReviews = repositoryReviews;
+        this.repositoryReviewsUsers = repositoryReviewsUsers;
+        this.loadImages = loadImages;
     }
 
-    public String get() {
-        Random random = new Random();
-        int elem = random.nextInt(images.size());
-        String image = images.get(elem);
-        images.remove(image);
-        return image;
+    public Image getImages() throws IOException {
+        ImagesEntity imageEntity = this.loadImages.getImagesEntity();
+        //TODO SAVE JPEG IMAGE IN DB https://www.kodyaz.com/t-sql/save-image-to-database-table-in-sql-server.aspx
+        return Image.builder()
+                .data(IOUtils.toByteArray(
+                                Objects.requireNonNull(
+                                        getClass().getClassLoader().getResourceAsStream(imageEntity.getPath())
+                                )
+                        )
+                )
+                .idImage(imageEntity.getIdImage())
+                .build();
     }
 
-    private void listFilesForFolder(final File folder) {
-        for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                images.add(fileEntry.getAbsolutePath());
-            }
-        }
-    }
+    public void putComment(String jwt, CommentEmotion comment) {
 
-    public void putComment(Comment comment) {
-        ObjectMapper Obj = new ObjectMapper();
-        POSTClient client = new POSTClient(this.host);
-        try {
-            client.createRequest(Obj.writeValueAsString(CreateRequestSentence.create(comment.getComment())), "/model");
-            String response = client.call();
-            response = StringUtils.replace(response, " ", "A").replaceAll("[^A-Za-z0-9.]", "");
-            List<Double> ratings = Arrays.stream(StringUtils.split(response, "A"))
-                    .map(Double::parseDouble).collect(Collectors.toList());
+        UsersEntity user = JWTUtils.decode(jwt);
+        ReviewsEntity reviewsEntity = new ReviewsEntity();
 
-            int index = IntStream.range(0, ratings.size())
-                    .boxed().max(Comparator.comparing(ratings::get))
-                    .get();
-            UsersEntity user = JWTUtils.decode(comment.getJwt());
-            ReviewsEntity reviewsEntity = new ReviewsEntity();
-            reviewsEntity.setReview(ratings.get(index));
-            reviewsEntity.setImage(comment.getImage());
-            reviewsEntity.setDescription(Descriptors.scale[index]);
-            reviewsEntity = repositoryReviews.save(reviewsEntity);
-            log.info("reviewsEntity id={}", reviewsEntity.getIdreviews_images());
-            ReviewsUsers connect = new ReviewsUsers();
-            connect.setId_user(user.getId_user());
-            connect.setIdreviews_images(reviewsEntity.getIdreviews_images());
-            repositoryReviewsUsers.save(connect);
-        } catch (URISyntaxException | JsonProcessingException e) {
-            log.error(ExceptionUtils.getStackTrace(e));
-        }
+        reviewsEntity.setComment(comment.getComment());
+        reviewsEntity.setIdEmotion(comment.getIdEmotion());
+        reviewsEntity.setIdImage(comment.getIdImage());
+        reviewsEntity = repositoryReviews.save(reviewsEntity);
+        log.info("reviewsEntity {}", reviewsEntity);
+        ReviewsFromUsers reviewsFromUsers = new ReviewsFromUsers();
+        reviewsFromUsers.setIdUser(user.getIdUser());
+        reviewsFromUsers.setIdReview(reviewsEntity.getIdReview());
+        reviewsFromUsers = repositoryReviewsUsers.save(reviewsFromUsers);
+        log.info("connect {}", reviewsFromUsers);
+
+        //TODO SAVE RECORDS VIDEO
     }
 }

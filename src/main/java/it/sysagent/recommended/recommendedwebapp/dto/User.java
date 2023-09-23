@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
 
-    private String nickName;
+    private String name;
 
     private String gender;
 
     private int age;
+
+    private boolean authorizationRecording;
 }

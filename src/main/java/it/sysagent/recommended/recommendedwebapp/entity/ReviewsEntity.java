@@ -1,41 +1,33 @@
 package it.sysagent.recommended.recommendedwebapp.entity;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Objects;
 
-@Table(name = "reviews_images")
+@Table(name = "reviews")
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewsEntity {
 
     @Id
-    @Column(name = "idreviews_images", nullable = false)
+    @Column(name = "idreview", nullable = false)
     @GeneratedValue
-    private Long idreviews_images;
+    private Long idReview;
 
-    private String image;
+    @Column(name = "idimage", nullable = false)
+    private Long idImage;
 
-    private Double review;
+    @Column(name = "comment")
+    private String comment;
 
-    private String description;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ReviewsEntity that = (ReviewsEntity) o;
-        return idreviews_images != null && Objects.equals(idreviews_images, that.idreviews_images);
-    }
+    @Column(name = "idemotion", nullable = false)
+    private Long idEmotion;
 
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public String toString() {
+        return String.format("idReview=%d idImage=%d comment=%s idEmotion=%d", idReview, idImage, comment, idEmotion);
     }
 }

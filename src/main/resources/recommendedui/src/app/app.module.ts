@@ -15,6 +15,7 @@ import { ApiModule } from './api/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BarChartComponent } from './shared-component/barchart/barchart.component';
 import { AdviceComponent } from './advice/advice.component';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AdviceComponent } from './advice/advice.component';
     JwtModule,
     HttpClientModule,
     ApiModule.forRoot({ rootUrl: 'http://localhost:8080' }),
+    WebcamModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -9,18 +9,26 @@ import it.sysagent.recommended.recommendedwebapp.repository.RepositoryUsers;
 import it.sysagent.recommended.recommendedwebapp.util.JWTUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service(UserService.ENTITY)
 public class UserService {
 
-    @Autowired
-    private RepositoryUsers repositoryUsers;
+    public final static String ENTITY = "USER-SERVICE";
+
+    private final RepositoryUsers repositoryUsers;
+
+    private final RepositoryAuthUser repositoryAuthUser;
 
     @Autowired
-    private RepositoryAuthUser repositoryAuthUser;
+    public UserService(@Qualifier(RepositoryUsers.ENTITY) RepositoryUsers repositoryUsers,
+                       @Qualifier(RepositoryAuthUser.ENTITY) RepositoryAuthUser repositoryAuthUser) {
+        this.repositoryUsers = repositoryUsers;
+        this.repositoryAuthUser = repositoryAuthUser;
+    }
 
     public String userSession(User user) {
         UsersEntity userEntity = repositoryUsers.save(new UsersEntity(user));
@@ -29,7 +37,7 @@ public class UserService {
 
     public String authUser(AuthUser authUser) {
         List<AuthUserEntity> entity = repositoryAuthUser.findByUser(authUser.getUser());
-        if(entity != null && !entity.isEmpty() && StringUtils.equals(entity.get(0).getPwd(), authUser.getPwd())){
+        if (entity != null && !entity.isEmpty() && StringUtils.equals(entity.get(0).getPwd(), authUser.getPwd())) {
             return "OK";
         }
         return "KO";

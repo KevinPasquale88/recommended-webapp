@@ -3,16 +3,36 @@
     <div class="card">
         <div class="card-header">
             <div class="progress">
-                <div class="progress-bar" role="progressbar"
-                    aria-valuenow="stepsImagine" aria-valuemin="0" aria-valuemax="100"
-                    [ngStyle]= "{ 'width':componentWidth}">{{componentWidth}}</div>
+                <div class="progress-bar" role="progressbar" aria-valuenow="stepsImagine" aria-valuemin="0"
+                    aria-valuemax="100" [ngStyle]="{ 'width':componentWidth}">{{componentWidth}}</div>
             </div>
         </div>
         <div class="card-body">
-            <div *ngIf="sentenceEmpty" class="alert alert-danger" role="alert">
-                Se non vuoi commentare puoi cliccare su skip
-            </div>
             <img [src]="imageShow" class="img-fluid">
+
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="paura" autocomplete="off">
+                <label class="btn btn-secondary" for="paura">Paura</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="gioia" autocomplete="off">
+                <label class="btn btn-secondary" for="gioia">Gioia</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="disgusto" autocomplete="off">
+                <label class="btn btn-secondary" for="disgusto">Disgusto</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="tristezza" autocomplete="off">
+                <label class="btn btn-secondary" for="tristezza">Tristezza</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="rabbia" autocomplete="off">
+                <label class="btn btn-secondary" for="rabbia">Rabbia</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="sorpresa" autocomplete="off">
+                <label class="btn btn-secondary" for="sorpresa">Sorpresa</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="neutro" autocomplete="off">
+                <label class="btn btn-secondary" for="neutro">Neutro</label>
+            </div>
             <h5 class="card-title">Come commenteresti questa immagine:</h5>
             <div class="row g-3">
                 <div class="col-12">
@@ -22,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-success" (click)="onSubmit()">Conferma</button>
+                    <button type="submit" class="btn btn-success" (click)="nextPhoto()">Prossima Foto</button>
                     <button type="submit" class="btn btn-warning" (click)="skip()">Skip</button>
                 </div>
             </div>

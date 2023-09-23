@@ -1,8 +1,8 @@
 /target/
 /.idea/
-/.mvn/
 /mvnw.cmd
 /mvnw
 /src/main/resources/recommendedui/node_modules/
 /src/main/resources/recommendedui/.angular/
 /src/main/resources/recommendedui/node/
+/.mvn/

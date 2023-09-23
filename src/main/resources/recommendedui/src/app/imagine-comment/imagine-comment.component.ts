@@ -23,6 +23,8 @@ export class ImagineCommentComponent implements OnInit {
 
   imageName: string | undefined;
 
+  selectedEmotion: string = '';
+
   constructor(private _router: Router, private _activatedRoute: ActivatedRoute,
      private imageService:ImagesServicesService, private sanitizer: DomSanitizer) { }
 
@@ -31,19 +33,18 @@ export class ImagineCommentComponent implements OnInit {
   }
   
   skip(){
-    
+    this.downloadInfo();
+  }
+
+  nextPhoto(){
+    this.downloadInfo ();
   }
 
   onSubmit() {
-    if(this.sentence == ''){
-      this.sentenceEmpty = true;
-    }else{
-      this.sentenceEmpty = false;
       this.imageService.sendComment(this.sentence, this.imageName).subscribe();
       this.sentence = '';
       this.stepsImagine += 1;
       this.downloadInfo();
-    }
   }
 
   async downloadInfo(){

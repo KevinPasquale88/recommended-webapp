@@ -1,3 +1,6 @@
+// 20230923100010
+// http://localhost:8080/v3/api-docs
+
 {
   "openapi": "3.0.1",
   "info": {
@@ -22,8 +25,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
-              },
-              "example": null
+              }
             }
           },
           "required": true
@@ -34,10 +36,8 @@
             "content": {
               "text/html": {
                 "schema": {
-                  "type": "string",
-                  "example": null
-                },
-                "example": null
+                  "type": "string"
+                }
               }
             }
           }
@@ -55,8 +55,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AuthUser"
-              },
-              "example": null
+              }
             }
           },
           "required": true
@@ -67,10 +66,8 @@
             "content": {
               "text/html": {
                 "schema": {
-                  "type": "string",
-                  "example": null
-                },
-                "example": null
+                  "type": "string"
+                }
               }
             }
           }
@@ -83,13 +80,22 @@
           "imaging-controller"
         ],
         "operationId": "putComment",
+        "parameters": [
+          {
+            "name": "jwt",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Comment"
-              },
-              "example": null
+                "$ref": "#/components/schemas/CommentEmotion"
+              }
             }
           },
           "required": true
@@ -107,6 +113,16 @@
           "imaging-controller"
         ],
         "operationId": "getRandomImage",
+        "parameters": [
+          {
+            "name": "jwt",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -114,33 +130,30 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Image"
-                },
-                "example": null
+                }
               }
             }
           }
         }
       }
     },
-    "/api/dashboard/statistics": {
+    "/api/emotions": {
       "get": {
         "tags": [
-          "dashboard-controller"
+          "emotions-controller"
         ],
-        "operationId": "get",
+        "operationId": "getEmotions",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "type": "array",
-                  "example": null,
                   "items": {
-                    "$ref": "#/components/schemas/ImageStatistics"
+                    "$ref": "#/components/schemas/Emotions"
                   }
-                },
-                "example": null
+                }
               }
             }
           }
@@ -153,116 +166,75 @@
       "User": {
         "type": "object",
         "properties": {
-          "nickName": {
-            "type": "string",
-            "example": null
+          "name": {
+            "type": "string"
           },
           "gender": {
-            "type": "string",
-            "example": null
+            "type": "string"
           },
           "age": {
             "type": "integer",
-            "format": "int32",
-            "example": null
+            "format": "int32"
+          },
+          "authorizationRecording": {
+            "type": "boolean"
           }
-        },
-        "example": null
+        }
       },
       "AuthUser": {
         "type": "object",
         "properties": {
           "user": {
-            "type": "string",
-            "example": null
+            "type": "string"
           },
           "pwd": {
-            "type": "string",
-            "example": null
+            "type": "string"
           }
-        },
-        "example": null
+        }
       },
-      "Comment": {
+      "CommentEmotion": {
         "type": "object",
         "properties": {
           "comment": {
-            "type": "string",
-            "example": null
+            "type": "string"
           },
-          "image": {
-            "type": "string",
-            "example": null
+          "idImage": {
+            "type": "integer",
+            "format": "int64"
           },
-          "jwt": {
-            "type": "string",
-            "example": null
+          "idEmotion": {
+            "type": "integer",
+            "format": "int64"
           }
-        },
-        "example": null
+        }
       },
       "Image": {
         "type": "object",
         "properties": {
-          "image": {
-            "type": "string",
-            "example": null
+          "idImage": {
+            "type": "integer",
+            "format": "int64"
           },
           "data": {
             "type": "array",
-            "example": null,
             "items": {
               "type": "string",
-              "format": "byte",
-              "example": null
+              "format": "byte"
             }
           }
-        },
-        "example": null
+        }
       },
-      "ImageStatistics": {
+      "Emotions": {
         "type": "object",
         "properties": {
-          "nameImage": {
-            "type": "string",
-            "example": null
-          },
-          "image": {
-            "type": "array",
-            "example": null,
-            "items": {
-              "type": "string",
-              "format": "byte",
-              "example": null
-            }
-          },
-          "statisticsList": {
-            "type": "array",
-            "example": null,
-            "items": {
-              "$ref": "#/components/schemas/Statistics"
-            }
-          }
-        },
-        "example": null
-      },
-      "Statistics": {
-        "type": "object",
-        "properties": {
-          "review": {
-            "type": "number",
-            "format": "double",
-            "example": null
+          "idEmotion": {
+            "type": "integer",
+            "format": "int64"
           },
           "emotion": {
-            "type": "string",
-            "example": null
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
+            "type": "string"
           }
-        },
-        "example": null
+        }
       }
     }
   }
